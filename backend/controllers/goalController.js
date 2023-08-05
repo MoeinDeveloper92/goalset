@@ -36,15 +36,15 @@ exports.deleteGoal = assyncHandler(async (req, res, next) => {
         res.status(400)
         throw new Error("Gol not found")
     }
-    const user = await User.findById(req.user.id)
+
     //check for user
-    if (!user) {
+    if (!req.user) {
         res.status(401)
         throw new Error("User not found")
     }
 
     // check for that we cannot update each other's goal
-    if (goal.user.toString() !== user.id) {
+    if (goal.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error("User not authorized")
     }
@@ -64,15 +64,15 @@ exports.updateGoal = assyncHandler(async (req, res, next) => {
         throw new Error("Goal Not Found")
     }
 
-    const user = await User.findById(req.user.id)
+
     //check for user
-    if (!user) {
+    if (!req.user) {
         res.status(401)
         throw new Error("User not found")
     }
 
     // check for that we cannot update each other's goal
-    if (goal.user.toString() !== user.id) {
+    if (goal.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error("User not authorized")
     }
